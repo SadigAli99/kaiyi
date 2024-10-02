@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const ConnectDB = require("./config/connect");
-const path = require("path");
 const app = express();
 dotenv.config(); //connect .env
 const PORT = 3000 || process.env.PORT; //connect port
@@ -61,8 +60,8 @@ ConnectDB();
 
 app.use(express.json());
 app.use(cors({ origin: "*" }));
-// app.use("/public", express.static("/var/data"));
-app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("/public", express.static("/var/data"));
+// app.use("/public", express.static(path.join(__dirname, "public")));
 
 const apis = [
   Translates,

@@ -1,11 +1,12 @@
 const multer = require("multer");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const sharp = require("sharp");
+
+const diskMountPath = "/var/data";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../public"));
+    cb(null, diskMountPath);
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
@@ -15,6 +16,5 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
 
 module.exports = upload;
