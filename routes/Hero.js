@@ -4,7 +4,7 @@ const HeroModel = require("../models/HeroModel");
 const { uploadConfig, useSharp } = require("../config/MulterC");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-
+const diskMountPath = require("../config/mountPath");
 router.post(
   "/hero",
   uploadConfig.fields([
@@ -19,7 +19,7 @@ router.post(
 
       // Img
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imgOutputPath = path.join(__dirname, "/public", imgFileName);
+      const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.files.img[0].buffer, imgOutputPath);
       const imageFile = `/public/${imgFileName}`;
 
