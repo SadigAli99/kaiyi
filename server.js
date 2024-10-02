@@ -113,6 +113,9 @@ const apis = [
   UsersRoute,
 ];
 
+const TestDriveModel = require("./models/TestDriveModel");
+const ForCorporateCustomerModel = require("./models/ForCorporateCustomerModel");
+
 apis.forEach((apis) => {
   app.use("/api", apis);
 });
@@ -142,3 +145,5 @@ app.get("/api/get-db-collection-lengths", async (req, res) => {
 app.listen(PORT, () => {
   console.log(PORT, "Server is runnning");
 });
+
+module.exports = { TestDriveModel, ForCorporateCustomerModel };
