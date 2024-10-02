@@ -19,13 +19,13 @@ router.post(
 
       // Img
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imgOutputPath = path.join(__dirname, "../public", imgFileName);
+      const imgOutputPath = path.join(__dirname, "/public", imgFileName);
       await useSharp(req.files.img[0].buffer, imgOutputPath);
       const imageFile = `/public/${imgFileName}`;
 
       // Mini img
       const miniImgFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const miniImgOutputPath = path.join(__dirname, "../public", miniImgFileName);
+      const miniImgOutputPath = path.join(__dirname, "/public", miniImgFileName);
       await useSharp(req.files.miniImg[0].buffer, miniImgOutputPath);
       const miniImgFile = `/public/${miniImgFileName}`;
 
@@ -84,13 +84,13 @@ router.put(
 
       // Img
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imgOutputPath = path.join(__dirname, "../public", imgFileName);
+      const imgOutputPath = path.join(__dirname, "/public", imgFileName);
       await useSharp(req.files.img[0].buffer, imgOutputPath);
       const imageFile = `/public/${imgFileName}`;
 
       // Mini img
       const miniImgFileName = `${uuidv4()}-${Date.now()}-mini.webp`;
-      const miniImgOutputPath = path.join(__dirname, "../public", miniImgFileName);
+      const miniImgOutputPath = path.join(__dirname, "/public", miniImgFileName);
       await useSharp(req.files.miniImg[0].buffer, miniImgOutputPath);
       const miniImgFile = `/public/${miniImgFileName}`;
 

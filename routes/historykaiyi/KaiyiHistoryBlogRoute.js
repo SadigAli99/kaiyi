@@ -15,7 +15,7 @@ router.post(
   async (req, res) => {
     try {
       const imageFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imageOutputPath = path.join(__dirname, "../../public", imageFileName);
+      const imageOutputPath = path.join(__dirname, "..//public", imageFileName);
       await useSharp(req.files.img[0].buffer, imageOutputPath);
       const imgFile = `/public/${imageFileName}`;
 
@@ -24,7 +24,7 @@ router.post(
       }
 
       const videoFileName = `${uuidv4()}-${Date.now()}-${req.files.video[0].originalname}`;
-      const videoOutputPath = path.join(__dirname, "../../public", videoFileName);
+      const videoOutputPath = path.join(__dirname, "..//public", videoFileName);
 
       const fs = require("fs");
       fs.writeFileSync(videoOutputPath, req.files.video[0].buffer);
@@ -105,12 +105,12 @@ router.put(
 
       //image
       const fileName = `${uuidv4()}-${Date.now()}.webp`;
-      const outputPath = path.join(__dirname, "../../public", fileName);
+      const outputPath = path.join(__dirname, "..//public", fileName);
       await useSharp(req.files.img[0].buffer, outputPath);
       const imgFile = `/public/${fileName}`;
 
       //video
-      const videoFile = req.file ? `../../public/${req.files.video[0].filename}` : "";
+      const videoFile = req.file ? `..//public/${req.files.video[0].filename}` : "";
 
       const {
         title_az,

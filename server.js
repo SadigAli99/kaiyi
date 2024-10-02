@@ -59,8 +59,11 @@ const UsersRoute = require("./routes/users/UsersRoute");
 ConnectDB();
 
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE", "PATCH"] }));
+
 app.use("/public", express.static("/var/data"));
+
 // app.use("/public", express.static(path.join(__dirname, "public")));
 
 const apis = [
@@ -113,6 +116,7 @@ const apis = [
   UsersRoute,
 ];
 
+//Models
 const TestDriveModel = require("./models/TestDriveModel");
 const ForCorporateCustomerModel = require("./models/ForCorporateCustomerModel");
 

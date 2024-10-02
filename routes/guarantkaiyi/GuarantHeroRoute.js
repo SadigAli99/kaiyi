@@ -8,7 +8,7 @@ const { uploadConfig, useSharp } = require("../../config/MulterC");
 router.post("/guaranthero", uploadConfig.single("img"), async (req, res) => {
   try {
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "../../public", fileName);
+    const outputPath = path.join(__dirname, "..//public", fileName);
     await useSharp(req.file.buffer, outputPath);
     const imgFile = `/public/${fileName}`;
 
@@ -49,7 +49,7 @@ router.put("/guaranthero/:id", uploadConfig.single("img"), async (req, res) => {
     const { id } = req.params;
 
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "../../public", fileName);
+    const outputPath = path.join(__dirname, "..//public", fileName);
     await useSharp(req.file.buffer, outputPath);
     const imgFile = `/public/${fileName}`;
 

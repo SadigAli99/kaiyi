@@ -11,7 +11,7 @@ router.post("/dealertab", uploadConfig.single("img"), async (req, res) => {
       return res.status(400).json({ msg: "image field is required!" });
     }
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "../public", fileName);
+    const outputPath = path.join(__dirname, "/public", fileName);
 
     await useSharp(req.file.buffer, outputPath);
 
@@ -52,7 +52,7 @@ router.put("/dealertab/:id", uploadConfig.single("img"), async (req, res) => {
       return res.status(400).json({ msg: "image field is required!" });
     }
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "../../public", fileName);
+    const outputPath = path.join(__dirname, "..//public", fileName);
 
     await useSharp(req.file.buffer, outputPath);
 

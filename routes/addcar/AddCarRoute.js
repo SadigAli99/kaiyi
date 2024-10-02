@@ -13,7 +13,7 @@ router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
 
     // Img
     const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-    const imgOutputPath = path.join(__dirname, "../../public", imgFileName);
+    const imgOutputPath = path.join(__dirname, "..//public", imgFileName);
     await useSharp(req.file.buffer, imgOutputPath);
     const imageFile = `/public/${imgFileName}`;
 
@@ -76,7 +76,7 @@ router.put("/add-car/:id", uploadConfig.single("img"), async (req, res) => {
 
     // Img
     const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-    const imgOutputPath = path.join(__dirname, "../../public", imgFileName);
+    const imgOutputPath = path.join(__dirname, "..//public", imgFileName);
     await useSharp(req.file.buffer, imgOutputPath);
     const imageFile = `/public/${imgFileName}`;
 

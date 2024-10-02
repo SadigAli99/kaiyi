@@ -18,7 +18,7 @@ router.post("/ouradvantages", uploadConfig.array("icon", 10), async (req, res) =
     if (req.files) {
       for (let file of req.files) {
         const fileName = `${uuidv4()}-${Date.now()}.webp`;
-        const outputPath = path.join(__dirname, "../public", fileName);
+        const outputPath = path.join(__dirname, "/public", fileName);
         await useSharp(file.buffer, outputPath);
         fileNames.push(`/public/${fileName}`);
       }
@@ -90,7 +90,7 @@ router.put("/ouradvantages/:id", uploadConfig.array("icon", 10), async (req, res
     if (req.files) {
       for (let file of req.files) {
         const fileName = `${uuidv4()}-${Date.now()}.webp`;
-        const outputPath = path.join(__dirname, "../public", fileName);
+        const outputPath = path.join(__dirname, "/public", fileName);
         await useSharp(file.buffer, outputPath);
         fileNames.push(`/public/${fileName}`);
       }
