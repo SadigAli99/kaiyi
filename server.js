@@ -66,6 +66,11 @@ app.use("/public", express.static("/var/data"));
 
 // app.use("/public", express.static(path.join(__dirname, "public")));
 
+
+//Models
+const TestDriveModel = require("./models/TestDriveModel");
+const ForCorporateCustomerModel = require("./models/ForCorporateCustomerModel");
+
 const apis = [
   Translates,
   LogoRoute,
@@ -115,10 +120,6 @@ const apis = [
   ContactManagerRoute,
   UsersRoute,
 ];
-
-//Models
-const TestDriveModel = require("./models/TestDriveModel");
-const ForCorporateCustomerModel = require("./models/ForCorporateCustomerModel");
 
 apis.forEach((apis) => {
   app.use("/api", apis);

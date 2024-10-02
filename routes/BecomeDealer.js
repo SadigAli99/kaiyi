@@ -3,6 +3,7 @@ const router = express.Router();
 const BecomeDealerModel = require("../models/BecomeDealerModel");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const diskMountPath = require("../config/mountPath");
 const { uploadConfig, useSharp } = require("../config/MulterC");
 
 router.post("/dealertab", uploadConfig.single("img"), async (req, res) => {
@@ -11,7 +12,7 @@ router.post("/dealertab", uploadConfig.single("img"), async (req, res) => {
       return res.status(400).json({ msg: "image field is required!" });
     }
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "/public", fileName);
+    const outputPath = path.join(diskMountPath, fileName);
 
     await useSharp(req.file.buffer, outputPath);
 

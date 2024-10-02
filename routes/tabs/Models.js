@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const ModelsTabModel = require("../../models/tabs/ModelsTab");
-const upload = require("../../config/MulterConfig");
 const createSlug = require("../../config/createSlug");
 const { uploadConfig, useSharp } = require("../../config/MulterC");
 const path = require("path");
@@ -18,7 +17,7 @@ router.post(
     try {
       // Img
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imgOutputPath = path.join(__dirname, "/public", imgFileName);
+      const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.files.img[0].buffer, imgOutputPath);
       const imageFile = `/public/${imgFileName}`;
 

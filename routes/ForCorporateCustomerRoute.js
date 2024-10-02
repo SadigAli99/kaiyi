@@ -4,11 +4,12 @@ const { ForCorporateCustomerModel } = require("../server");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const { uploadConfig, useSharp } = require("../config/MulterC");
+const diskMountPath = require("../config/mountPath");
 
 router.post("/for-corporate-customers", uploadConfig.single("img"), async (req, res) => {
   try {
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "/public", fileName);
+    const outputPath = path.join(diskMountPath, fileName);
     await useSharp(req.file.buffer, outputPath);
     const imgFile = `/public/${fileName}`;
 
@@ -49,7 +50,7 @@ router.put("/for-corporate-customers/:id", uploadConfig.single("img"), async (re
     const { id } = req.params;
 
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "/public", fileName);
+    const outputPath = path.join(diskMountPath, fileName);
     await useSharp(req.file.buffer, outputPath);
     const imgFile = `/public/${fileName}`;
 
