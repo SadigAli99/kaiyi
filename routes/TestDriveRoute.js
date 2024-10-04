@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { TestDriveModel } = require("../server");
+const TestDriveModel = require("../models/TestDriveModel");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const { uploadConfig, useSharp } = require("../config/MulterC");

@@ -145,9 +145,3 @@ app.get("/api/get-db-collection-lengths", async (req, res) => {
 app.listen(PORT, () => {
   console.log(PORT, "Server is runnning");
 });
-
-//Models
-const TestDriveModel = require("./models/TestDriveModel");
-const ForCorporateCustomerModel = require("./models/ForCorporateCustomerModel");
-
-module.exports = { TestDriveModel, ForCorporateCustomerModel };

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ForCorporateCustomerModel } = require("../server");
+const ForCorporateCustomerModel = require("../models/ForCorporateCustomerModel");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const { uploadConfig, useSharp } = require("../config/MulterC");
