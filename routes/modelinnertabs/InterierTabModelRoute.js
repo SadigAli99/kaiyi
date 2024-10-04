@@ -4,6 +4,7 @@ const InterierTabModel = require("../../models/modelinnertabs/InterierTabModel")
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const { uploadConfig, useSharp } = require("../../config/MulterC");
+const diskMountPath = require("../../config/mountPath");
 
 router.post("/modelinteriertab", uploadConfig.single("img"), async (req, res) => {
   try {
@@ -11,7 +12,7 @@ router.post("/modelinteriertab", uploadConfig.single("img"), async (req, res) =>
       return res.status(400).json({ msg: "image field is required!" });
     }
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "..//public", fileName);
+    const outputPath = path.join(diskMountPath, fileName);
 
     await useSharp(req.file.buffer, outputPath);
 
@@ -57,7 +58,7 @@ router.put("/modelinteriertab/:id", uploadConfig.single("img"), async (req, res)
       return res.status(400).json({ msg: "image field is required!" });
     }
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
-    const outputPath = path.join(__dirname, "..//public", fileName);
+    const outputPath = path.join(diskMountPath, fileName);
 
     await useSharp(req.file.buffer, outputPath);
 

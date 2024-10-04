@@ -4,6 +4,7 @@ const AddCarModel = require("../../models/addcar/AddCarModel");
 const { uploadConfig, useSharp } = require("../../config/MulterC");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const diskMountPath = require("../../config/mountPath");
 
 router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
   try {
@@ -13,7 +14,7 @@ router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
 
     // Img
     const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-    const imgOutputPath = path.join(__dirname, "..//public", imgFileName);
+    const imgOutputPath = path.join(diskMountPath, imgFileName);
     await useSharp(req.file.buffer, imgOutputPath);
     const imageFile = `/public/${imgFileName}`;
 
@@ -76,7 +77,7 @@ router.put("/add-car/:id", uploadConfig.single("img"), async (req, res) => {
 
     // Img
     const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-    const imgOutputPath = path.join(__dirname, "..//public", imgFileName);
+    const imgOutputPath = path.join(diskMountPath, imgFileName);
     await useSharp(req.file.buffer, imgOutputPath);
     const imageFile = `/public/${imgFileName}`;
 

@@ -5,6 +5,7 @@ const { uploadConfig, useSharp } = require("../../config/MulterC");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const fs = require("fs");
+const diskMountPath = require('../../config/mountPath');
 
 router.post(
   "/repair-rules-download",
@@ -25,7 +26,7 @@ router.post(
       let pdfFile = "";
       if (req.files.pdf) {
         const pdfFileName = `${uuidv4()}-${Date.now()}-${req.files.pdf[0].originalname}`;
-        const pdfOutputPath = path.join(__dirname, "..//public", pdfFileName);
+        const pdfOutputPath = path.join(diskMountPath, pdfFileName);
 
         fs.writeFileSync(pdfOutputPath, req.files.pdf[0].buffer);
 
@@ -33,7 +34,7 @@ router.post(
       }
 
       const imgFileName = `${uuidv4()}${Date.now()}.webp`;
-      const outputPath = path.join(__dirname, "..//public", imgFileName);
+      const outputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.files["img"] ? req.files["img"][0].buffer : "", outputPath);
       const imgFile = `/public/${imgFileName}`;
 
@@ -68,14 +69,14 @@ router.put(
       const { id } = req.params;
 
       const fileName = `${uuidv4()}-${Date.now()}.webp`;
-      const outputPath = path.join(__dirname, "..//public", fileName);
+      const outputPath = path.join(diskMountPath, fileName);
       await useSharp(req.files.img[0].buffer, outputPath);
       const imgFile = `/public/${fileName}`;
 
       let pdfFile = "";
       if (req.files.pdf) {
         const pdfFileName = `${uuidv4()}-${Date.now()}-${req.files.pdf[0].originalname}`;
-        const pdfOutputPath = path.join(__dirname, "..//public", pdfFileName);
+        const pdfOutputPath = path.join(diskMountPath, pdfFileName);
 
         fs.writeFileSync(pdfOutputPath, req.files.pdf[0].buffer);
 

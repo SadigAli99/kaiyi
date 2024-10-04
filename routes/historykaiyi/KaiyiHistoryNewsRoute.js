@@ -5,6 +5,7 @@ const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const { uploadConfig, useSharp } = require("../../config/MulterC");
 const slugify = require("slug");
+const diskMountPath = require("../../config/mountPath");
 
 router.post(
   "/kaiyi-history-news",
@@ -15,7 +16,7 @@ router.post(
   async (req, res) => {
     try {
       const imageFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imageOutputPath = path.join(__dirname, "..//public", imageFileName);
+      const imageOutputPath = path.join(diskMountPath, imageFileName);
       await useSharp(req.files.img[0].buffer, imageOutputPath);
       const imgFile = `/public/${imageFileName}`;
 
@@ -24,7 +25,7 @@ router.post(
       }
 
       const videoFileName = `${uuidv4()}-${Date.now()}-${req.files.video[0].originalname}`;
-      const videoOutputPath = path.join(__dirname, "..//public", videoFileName);
+      const videoOutputPath = path.join(diskMountPath, videoFileName);
 
       const fs = require("fs");
       fs.writeFileSync(videoOutputPath, req.files.video[0].buffer);
@@ -105,7 +106,7 @@ router.put(
 
       //image
       const fileName = `${uuidv4()}-${Date.now()}.webp`;
-      const outputPath = path.join(__dirname, "..//public", fileName);
+      const outputPath = path.join(diskMountPath, fileName);
       await useSharp(req.files.img[0].buffer, outputPath);
       const imgFile = `/public/${fileName}`;
 
