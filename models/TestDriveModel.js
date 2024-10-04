@@ -15,6 +15,6 @@ const TestDriveSchema = mongoose.Schema({
   status: { type: String, required: false, default: "active" },
 });
 
-const TestDrive = mongoose.model("TestDrive", TestDriveSchema);
+const TestDriveModel = mongoose.model("TestDrive", TestDriveSchema);
 
-module.exports = TestDrive;
+module.exports = TestDriveModel;

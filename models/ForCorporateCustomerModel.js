@@ -15,6 +15,6 @@ const CorporateCustomerSchema = mongoose.Schema({
   status: { type: String, required: false, default: "active" },
 });
 
-const CorporateCustomer = mongoose.model("ForCorporateCustomer", CorporateCustomerSchema);
+const ForCorporateCustomerModel = mongoose.model("ForCorporateCustomer", CorporateCustomerSchema);
 
-module.exports = CorporateCustomer;
+module.exports = ForCorporateCustomerModel;
