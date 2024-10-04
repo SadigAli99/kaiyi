@@ -66,11 +66,6 @@ app.use("/public", express.static("/var/data"));
 
 // app.use("/public", express.static(path.join(__dirname, "public")));
 
-
-//Models
-const TestDriveModel = require("./models/TestDriveModel");
-const ForCorporateCustomerModel = require("./models/ForCorporateCustomerModel");
-
 const apis = [
   Translates,
   LogoRoute,
@@ -150,5 +145,9 @@ app.get("/api/get-db-collection-lengths", async (req, res) => {
 app.listen(PORT, () => {
   console.log(PORT, "Server is runnning");
 });
+
+//Models
+const TestDriveModel = require("./models/TestDriveModel");
+const ForCorporateCustomerModel = require("./models/ForCorporateCustomerModel");
 
 module.exports = { TestDriveModel, ForCorporateCustomerModel };
