@@ -22,11 +22,11 @@ const AddCarSchema = mongoose.Schema({
     ru: { type: String, required: false, default: "" },
   },
   year: { type: String, required: false, default: "" },
-  vin: { type: String, required: false, default: "" },
+  vin: { type: String, required: true, unique: true },
   price: { type: String, required: true },
   carImage: { type: String, required: true },
   selected_model: { type: String, required: true },
-  color: { type: String, required: true, unique: true },
+  color: { type: String, required: true, unique: false },
   status: { type: String, required: false, default: "active" },
 });
 

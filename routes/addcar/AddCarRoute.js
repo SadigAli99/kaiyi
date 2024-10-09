@@ -26,10 +26,10 @@ router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
       }
     }
 
-    const existingColor = await AddCarModel.findOne({ color: req.body.color });
+    const existingVin = await AddCarModel.findOne({ vin: req.body.vin });
 
-    if (existingColor) {
-      return res.status(400).json({ message: "is existing color" });
+    if (existingVin) {
+      return res.status(400).json({ message: "is existing vin" });
     }
 
     const createData = new AddCarModel({
