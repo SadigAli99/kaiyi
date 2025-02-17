@@ -190,12 +190,16 @@ router.get('/filter-cars', async (req, res) => {
 
     const { selected_model, color } = req.query;
     const modelFilter = selected_model ? selected_model.split(',') : [];
+    const modelColor = color ? `#${color}` : null;
 
     const filter = { status: 'active' };
 
     if (modelFilter.length > 0) {
       filter.selected_model = { $in: modelFilter };
-      filter.color = { $in: color };
+    }
+
+    if (modelColor) {
+      filter.color = modelColor;
     }
 
     const cars = await AddCarModel.find(filter);
