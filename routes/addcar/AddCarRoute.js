@@ -193,7 +193,6 @@ router.get('/filter-cars', async (req, res) => {
 
     const filter = { status: 'active' };
 
-    // Model ID'lerine göre filtreleme
     if (modelFilter.length > 0) {
       filter.selected_model = { $in: modelFilter };
     }
@@ -203,20 +202,14 @@ router.get('/filter-cars', async (req, res) => {
     if (!cars || cars.length === 0) {
       return res.status(404).json({ error: 'No cars found with the selected filters.' });
     }
-
-    const availableLanguages = ['az', 'en', 'ru'];
-
+    
     const filteredData = cars.map((data) => {
-      const getLocalizedData = (field) => {
-        return data[field][preferredLanguage] || availableLanguages.find((lang) => data[field][lang]);
-      };
-
       return {
         _id: data._id,
-        title: getLocalizedData('title'),
-        inStock: getLocalizedData('inStock'),
-        companyTitle: getLocalizedData('companyTitle'),
-        miniDesc: getLocalizedData('miniDesc'),
+        title: data.title[preferredLanguage],
+        inStock: data.inStock[preferredLanguage],
+        companyTitle: data.companyTitle[preferredLanguage],
+        miniDesc: data.miniDesc[preferredLanguage],
         year: data.year,
         price: data.price,
         vin: data.vin,
