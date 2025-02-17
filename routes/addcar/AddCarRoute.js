@@ -202,14 +202,18 @@ router.get('/filter-cars', async (req, res) => {
     if (!cars || cars.length === 0) {
       return res.status(404).json({ error: 'No cars found with the selected filters.' });
     }
-    
+
+    const getLocalizedData = (field, lang) => {
+      return field[lang] || field['en'] || field['az'] || 'N/A';
+    };
+
     const filteredData = cars.map((data) => {
       return {
         _id: data._id,
-        title: data.title[preferredLanguage],
-        inStock: data.inStock[preferredLanguage],
-        companyTitle: data.companyTitle[preferredLanguage],
-        miniDesc: data.miniDesc[preferredLanguage],
+        title: getLocalizedData(data.title, preferredLanguage),
+        inStock: getLocalizedData(data.inStock, preferredLanguage),
+        companyTitle: getLocalizedData(data.companyTitle, preferredLanguage),
+        miniDesc: getLocalizedData(data.miniDesc, preferredLanguage),
         year: data.year,
         price: data.price,
         vin: data.vin,
