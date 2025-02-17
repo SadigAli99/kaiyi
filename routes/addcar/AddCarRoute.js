@@ -188,13 +188,14 @@ router.get('/filter-cars', async (req, res) => {
     const acceptLanguage = req.headers['accept-language'] || 'az';
     const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
 
-    const { selected_model } = req.query;
+    const { selected_model, color } = req.query;
     const modelFilter = selected_model ? selected_model.split(',') : [];
 
     const filter = { status: 'active' };
 
     if (modelFilter.length > 0) {
       filter.selected_model = { $in: modelFilter };
+      filter.color = { $in: color };
     }
 
     const cars = await AddCarModel.find(filter);
