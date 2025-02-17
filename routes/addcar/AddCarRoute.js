@@ -183,7 +183,7 @@ router.get('/add-car', async (req, res) => {
   }
 });
 
-router.get('/add-car-front', async (req, res) => {
+router.get('/filter-cars', async (req, res) => {
   try {
     const acceptLanguage = req.headers['accept-language'];
     const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
@@ -225,33 +225,6 @@ router.get('/add-car-front', async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
-  }
-});
-
-router.get('/filter-cars', async (req, res) => {
-  try {
-    const acceptLanguage = req.headers['accept-language'] || 'az';
-    const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
-
-    let { selected_model } = req.query;
-    let modelFilter = selected_model ? selected_model.split(',') : [];
-
-    let filter = { status: 'active' };
-
-    if (modelFilter.length > 0) {
-      filter[`selected_model.${preferredLanguage}`] = { $in: modelFilter };
-    }
-
-    const cars = await AddCarModel.find(filter);
-
-    res.status(200).json({
-      success: true,
-      count: cars.length,
-      data: cars,
-    });
-  } catch (error) {
-    console.error('Filter error:', error);
-    res.status(500).json({ success: false, message: 'Server Error' });
   }
 });
 
