@@ -242,7 +242,7 @@ router.get('/filter-cars', async (req, res) => {
       filter[`title.${preferredLanguage}`] = { $in: modelFilter };
     }
 
-    const cars = await AddCar.find(filter);
+    const cars = await AddCarModel.find(filter);
 
     res.status(200).json({
       success: true,
