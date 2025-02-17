@@ -224,7 +224,7 @@ router.get('/filter-cars', async (req, res) => {
       };
     });
 
-    return res.status(200).json(filteredData);
+    return res.status(200).json({ data: filteredData, dataCount: filteredData?.length });
   } catch (error) {
     console.error('Filter error:', error);
     return res.status(500).json({ error: 'Server Error' });
