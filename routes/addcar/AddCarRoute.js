@@ -237,7 +237,7 @@ router.get('/filter-cars', async (req, res) => {
     let filter = { status: 'active' };
 
     if (modelFilter.length > 0) {
-      filter.selected_model = { $in: modelFilter };
+      filter.title['az'] = { $in: modelFilter };
     }
 
     const cars = await AddCarModel.find(filter);
