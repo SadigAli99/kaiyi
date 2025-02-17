@@ -185,26 +185,38 @@ router.get('/add-car', async (req, res) => {
 
 router.get('/filter-cars', async (req, res) => {
   try {
-    const acceptLanguage = req.headers['accept-language'];
+    const acceptLanguage = req.headers['accept-language'] || 'az';
     const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
 
     const { selected_model } = req.query;
+    const modelFilter = selected_model ? selected_model.split(',') : [];
 
     const filter = { status: 'active' };
 
-    if (selected_model) {
-      filter.selected_model = selected_model;
+    // Model ID'lerine göre filtreleme
+    if (modelFilter.length > 0) {
+      filter.selected_model = { $in: modelFilter };
     }
 
     const cars = await AddCarModel.find(filter);
 
-    const filteredData = cars?.map((data) => {
-      const languageSpecificData = {
+    if (!cars || cars.length === 0) {
+      return res.status(404).json({ error: 'No cars found with the selected filters.' });
+    }
+
+    const availableLanguages = ['az', 'en', 'ru'];
+
+    const filteredData = cars.map((data) => {
+      const getLocalizedData = (field) => {
+        return data[field][preferredLanguage] || availableLanguages.find((lang) => data[field][lang]);
+      };
+
+      return {
         _id: data._id,
-        title: data.title[preferredLanguage] || data.title['en'],
-        inStock: data.inStock[preferredLanguage] || data.inStock['en'],
-        companyTitle: data.companyTitle[preferredLanguage] || data.companyTitle['en'],
-        miniDesc: data.miniDesc[preferredLanguage] || data.miniDesc['en'],
+        title: getLocalizedData('title'),
+        inStock: getLocalizedData('inStock'),
+        companyTitle: getLocalizedData('companyTitle'),
+        miniDesc: getLocalizedData('miniDesc'),
         year: data.year,
         price: data.price,
         vin: data.vin,
@@ -213,18 +225,12 @@ router.get('/filter-cars', async (req, res) => {
         selected_model: data.selected_model,
         status: data.status,
       };
-
-      return languageSpecificData;
     });
-
-    if (filteredData.length === 0) {
-      return res.status(404).json({ error: 'No cars found with the selected filters.' });
-    }
 
     return res.status(200).json(filteredData);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: error.message });
+    console.error('Filter error:', error);
+    return res.status(500).json({ error: 'Server Error' });
   }
 });
 
