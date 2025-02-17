@@ -230,17 +230,19 @@ router.get('/add-car-front', async (req, res) => {
 
 router.get('/filter-cars', async (req, res) => {
   try {
-    let { selected_model } = req.query;
+    const acceptLanguage = req.headers['accept-language'] || 'az';
+    const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
 
+    let { selected_model } = req.query;
     let modelFilter = selected_model ? selected_model.split(',') : [];
 
     let filter = { status: 'active' };
 
     if (modelFilter.length > 0) {
-      filter.title['az'] = { $in: modelFilter };
+      filter[`title.${preferredLanguage}`] = { $in: modelFilter };
     }
 
-    const cars = await AddCarModel.find(filter);
+    const cars = await AddCar.find(filter);
 
     res.status(200).json({
       success: true,
