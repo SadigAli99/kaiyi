@@ -1,15 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const AddCarModel = require("../../models/addcar/AddCarModel");
-const { uploadConfig, useSharp } = require("../../config/MulterC");
-const path = require("path");
-const { v4: uuidv4 } = require("uuid");
-const diskMountPath = require("../../config/mountPath");
+const AddCarModel = require('../../models/addcar/AddCarModel');
+const { uploadConfig, useSharp } = require('../../config/MulterC');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+const diskMountPath = require('../../config/mountPath');
 
-router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
+router.post('/add-car', uploadConfig.single('img'), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ msg: "image fields are required!" });
+      return res.status(400).json({ msg: 'image fields are required!' });
     }
 
     // Img
@@ -18,7 +18,7 @@ router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
     await useSharp(req.file.buffer, imgOutputPath);
     const imageFile = `/public/${imgFileName}`;
 
-    const requiredFields = ["titleAz", "titleEn", "titleRu", "price", "inStockAz", "inStockEn", "inStockRu", "color"];
+    const requiredFields = ['titleAz', 'titleEn', 'titleRu', 'price', 'inStockAz', 'inStockEn', 'inStockRu', 'color'];
 
     for (let field of requiredFields) {
       if (!req.body[field]) {
@@ -29,7 +29,7 @@ router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
     const existingVin = await AddCarModel.findOne({ vin: req.body.vin });
 
     if (existingVin) {
-      return res.status(400).json({ message: "is existing vin" });
+      return res.status(400).json({ message: 'is existing vin' });
     }
 
     const createData = new AddCarModel({
@@ -71,7 +71,7 @@ router.post("/add-car", uploadConfig.single("img"), async (req, res) => {
   }
 });
 
-router.put("/add-car/:id", uploadConfig.single("img"), async (req, res) => {
+router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -134,13 +134,13 @@ router.put("/add-car/:id", uploadConfig.single("img"), async (req, res) => {
           status: req.body.status,
         },
       },
-      { new: true }
+      { new: true },
     )
       .lean()
       .exec();
 
     if (!updatedData) {
-      return res.status(404).json({ error: "not found editid" });
+      return res.status(404).json({ error: 'not found editid' });
     }
 
     return res.status(200).json(updatedData);
@@ -150,30 +150,30 @@ router.put("/add-car/:id", uploadConfig.single("img"), async (req, res) => {
   }
 });
 
-router.delete("/add-car/:id", async (req, res) => {
+router.delete('/add-car/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
     const data = await AddCarModel.findById(id);
 
     if (!data) {
-      return res.status(404).json({ message: "data not found." });
+      return res.status(404).json({ message: 'data not found.' });
     }
 
     await AddCarModel.findByIdAndDelete(id);
 
-    return res.status(200).json({ message: "deleted data" });
+    return res.status(200).json({ message: 'deleted data' });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/add-car", async (req, res) => {
+router.get('/add-car', async (req, res) => {
   try {
     const data = await AddCarModel.find();
     if (!data) {
-      return res.status(404).json({ message: "data not found" });
+      return res.status(404).json({ message: 'data not found' });
     }
 
     return res.status(200).json(data);
@@ -183,14 +183,14 @@ router.get("/add-car", async (req, res) => {
   }
 });
 
-router.get("/add-car-front", async (req, res) => {
+router.get('/add-car-front', async (req, res) => {
   try {
-    const acceptLanguage = req.headers["accept-language"];
-    const preferredLanguage = acceptLanguage.split(",")[0].split(";")[0];
+    const acceptLanguage = req.headers['accept-language'];
+    const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
 
     const { selected_model } = req.query;
 
-    const filter = { status: "active" };
+    const filter = { status: 'active' };
 
     if (selected_model) {
       filter.selected_model = selected_model;
@@ -201,10 +201,10 @@ router.get("/add-car-front", async (req, res) => {
     const filteredData = cars?.map((data) => {
       const languageSpecificData = {
         _id: data._id,
-        title: data.title[preferredLanguage] || data.title["en"],
-        inStock: data.inStock[preferredLanguage] || data.inStock["en"],
-        companyTitle: data.companyTitle[preferredLanguage] || data.companyTitle["en"],
-        miniDesc: data.miniDesc[preferredLanguage] || data.miniDesc["en"],
+        title: data.title[preferredLanguage] || data.title['en'],
+        inStock: data.inStock[preferredLanguage] || data.inStock['en'],
+        companyTitle: data.companyTitle[preferredLanguage] || data.companyTitle['en'],
+        miniDesc: data.miniDesc[preferredLanguage] || data.miniDesc['en'],
         year: data.year,
         price: data.price,
         vin: data.vin,
@@ -218,7 +218,7 @@ router.get("/add-car-front", async (req, res) => {
     });
 
     if (filteredData.length === 0) {
-      return res.status(404).json({ error: "No cars found with the selected filters." });
+      return res.status(404).json({ error: 'No cars found with the selected filters.' });
     }
 
     return res.status(200).json(filteredData);
@@ -228,34 +228,59 @@ router.get("/add-car-front", async (req, res) => {
   }
 });
 
-router.post("/status-update-add-car/:id", async (req, res) => {
+router.get('/filter-cars', async (req, res) => {
+  try {
+    let { selected_model } = req.query;
+
+    let modelFilter = selected_model ? selected_model.split(',') : [];
+
+    let filter = {};
+
+    if (modelFilter.length > 0) {
+      filter.model = { $in: modelFilter };
+    }
+
+    const cars = await AddCarModel.find(filter);
+
+    res.status(200).json({
+      success: true,
+      count: cars.length,
+      data: cars,
+    });
+  } catch (error) {
+    console.error('Filter error:', error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+});
+
+router.post('/status-update-add-car/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
     const updatedData = await AddCarModel.findByIdAndUpdate(id, { status }, { new: true });
 
     if (!updatedData) {
-      return res.status(404).json({ message: "Item not found" });
+      return res.status(404).json({ message: 'Item not found' });
     }
 
-    return res.status(200).json({ message: "Status updated", updatedData });
+    return res.status(200).json({ message: 'Status updated', updatedData });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/status-add-car/:id", async (req, res) => {
+router.get('/status-add-car/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const datas = await AddCarModel.findById(id, "status");
+    const datas = await AddCarModel.findById(id, 'status');
 
     if (!datas) {
-      return res.status(404).json({ message: "data not found" });
+      return res.status(404).json({ message: 'data not found' });
     }
 
-    return res.status(200).json({ message: "Status fetched successfully", status: datas.status });
+    return res.status(200).json({ message: 'Status fetched successfully', status: datas.status });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });

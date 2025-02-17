@@ -67,81 +67,81 @@ app.use('/public', express.static('/var/data'));
 // app.use("/public", express.static(path.join(__dirname, "public")));
 
 const apis = [
- Translates,
- LogoRoute,
- LocationRoute,
- TelephoneRoute,
- HeroRoute,
- DesignTabRoute,
- InterierTabRoute,
- SecurityTabRoute,
- ViewTabRoute,
- ComfortableTabRoute,
- ModelsRoute,
- NewsRoute,
- SubscribeNews,
- BecomeDealer,
- FindSeller,
- VideoTabModelRoute,
- DesignTabModelRoute,
- InterierTabModelRoute,
- ComfortTabModelRoute,
- SecurityTabModelRoute,
- ModelPdfInnerRoute,
- TestDriveRoute,
- TestDriveUsersRoute,
- ForCorporateCustomersRoute,
- OurAdvantagesRoute,
- ForCorporateCustomersRegistersRoute,
- KaiyiGuarantHeroRoute,
- KaiyiGuarantDescriptionRoute,
- KaiyiGuarantAttentionRoute,
- TrafficRulesHeroRoute,
- TrafficRulesCallRoute,
- TrafficRulesHelpedRoute,
- TrafficRulesBottomRoute,
- RepairAndMaintenanceHeroRoute,
- RepairAndMaintenanceRulesDownloadRoute,
- KaiyiHistoryHeroRoute,
- KaiyiHistoryBottomRoute,
- KaiyiHistoryBlogRoute,
- KaiyiHistoryNewsRoute,
- KaiyiHistoryContactHeroRoute,
- KaiyiHistoryContactFeedbacksRoute,
- AddDealerRoute,
- DealerContactsRoute,
- AddCarsRoute,
- SocialMediaRoute,
- ContactManagerRoute,
- UsersRoute,
+  Translates,
+  LogoRoute,
+  LocationRoute,
+  TelephoneRoute,
+  HeroRoute,
+  DesignTabRoute,
+  InterierTabRoute,
+  SecurityTabRoute,
+  ViewTabRoute,
+  ComfortableTabRoute,
+  ModelsRoute,
+  NewsRoute,
+  SubscribeNews,
+  BecomeDealer,
+  FindSeller,
+  VideoTabModelRoute,
+  DesignTabModelRoute,
+  InterierTabModelRoute,
+  ComfortTabModelRoute,
+  SecurityTabModelRoute,
+  ModelPdfInnerRoute,
+  TestDriveRoute,
+  TestDriveUsersRoute,
+  ForCorporateCustomersRoute,
+  OurAdvantagesRoute,
+  ForCorporateCustomersRegistersRoute,
+  KaiyiGuarantHeroRoute,
+  KaiyiGuarantDescriptionRoute,
+  KaiyiGuarantAttentionRoute,
+  TrafficRulesHeroRoute,
+  TrafficRulesCallRoute,
+  TrafficRulesHelpedRoute,
+  TrafficRulesBottomRoute,
+  RepairAndMaintenanceHeroRoute,
+  RepairAndMaintenanceRulesDownloadRoute,
+  KaiyiHistoryHeroRoute,
+  KaiyiHistoryBottomRoute,
+  KaiyiHistoryBlogRoute,
+  KaiyiHistoryNewsRoute,
+  KaiyiHistoryContactHeroRoute,
+  KaiyiHistoryContactFeedbacksRoute,
+  AddDealerRoute,
+  DealerContactsRoute,
+  AddCarsRoute,
+  SocialMediaRoute,
+  ContactManagerRoute,
+  UsersRoute,
 ];
 
 apis.forEach((apis) => {
- app.use('/api', apis);
+  app.use('/api', apis);
 });
 
 //get endpoint lengths
 app.get('/api/get-all-endpoint-lengths', async (req, res) => {
- try {
-  const endpointLengths = apis ? apis?.length : 0;
-  res.status(200).json(endpointLengths);
- } catch (error) {
-  console.log(error);
-  return res.status(500).json({ message: error.message });
- }
+  try {
+    const endpointLengths = apis ? apis?.length : 0;
+    res.status(200).json(endpointLengths);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 //get db collection length
 app.get('/api/get-db-collection-lengths', async (req, res) => {
- try {
-  const dbcLengths = await mongoose.connection.db.listCollections().toArray();
-  res.status(200).json(dbcLengths?.length);
- } catch (error) {
-  console.log(error);
-  return res.status(500).json({ message: error.message });
- }
+  try {
+    const dbcLengths = await mongoose.connection.db.listCollections().toArray();
+    res.status(200).json(dbcLengths?.length);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 app.listen(PORT, () => {
- console.log(PORT, 'Server is runnning');
+  console.log(PORT, 'Server is runnning');
 });
