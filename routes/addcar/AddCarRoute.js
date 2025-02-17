@@ -237,7 +237,7 @@ router.get('/filter-cars', async (req, res) => {
     let filter = {};
 
     if (modelFilter.length > 0) {
-      filter.model = { $in: modelFilter };
+      filter.title = { $in: modelFilter };
     }
 
     const cars = await AddCarModel.find(filter);
