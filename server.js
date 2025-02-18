@@ -51,6 +51,7 @@ const KaiyiHistoryContactHeroRoute = require('./routes/historykaiyi/KaiyiContact
 const KaiyiHistoryContactFeedbacksRoute = require('./routes/historykaiyi/KaiyiContactFeedbackRoute');
 const AddDealerRoute = require('./routes/AddDealerRoute');
 const DealerContactsRoute = require('./routes/DealerContactsRoute');
+const DealerContactsServiceRoute = require('./routes/DealerContactServiceRoute');
 const AddCarsRoute = require('./routes/addcar/AddCarRoute');
 const SocialMediaRoute = require('./routes/SocialMediaRoute');
 const ContactManagerRoute = require('./routes/ContactManagerRoute');
@@ -110,6 +111,7 @@ const apis = [
   KaiyiHistoryContactFeedbacksRoute,
   AddDealerRoute,
   DealerContactsRoute,
+  DealerContactsServiceRoute,
   AddCarsRoute,
   SocialMediaRoute,
   ContactManagerRoute,
