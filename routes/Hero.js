@@ -85,12 +85,11 @@ router.put(
       const { title_az, title_en, title_ru, description_az, description_en, description_ru } = req.body;
 
       // Güncellenecek veriyi getir
-      const existingData = await Hero.findById(id);
+      const existingData = await HeroModel.findById(id);
       if (!existingData) {
         return res.status(404).json({ error: "Güncellenecek veri bulunamadı!" });
       }
 
-      // Yeni gelen verileri güncellenecek veri ile birleştir
       const updatedData = {
         title: {
           az: title_az || existingHero.title.az,
@@ -104,7 +103,6 @@ router.put(
         },
       };
 
-      // Yeni resim yüklendiyse güncelle, yoksa eskiyi koru
       if (req.files["img"]) {
         const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
         const imgOutputPath = `/public/${imgFileName}`;
@@ -119,7 +117,6 @@ router.put(
         updatedData.imageFile = existingHero.image;
       }
 
-      // miniImage kontrolü
       if (req.files["miniImg"]) {
         const miniImgFileName = `${uuidv4()}-${Date.now()}-mini.webp`;
         const miniImgOutputPath = `/public/${miniImgFileName}`;
@@ -131,8 +128,7 @@ router.put(
         updatedData.miniImage = existingHero.miniImage;
       }
 
-      // Güncellenmiş veriyi kaydet
-      const updatedHero = await Hero.findByIdAndUpdate(id, { $set: updatedData }, { new: true, runValidators: true });
+      const updatedHero = await HeroModel.findByIdAndUpdate(id, { $set: updatedData }, { new: true, runValidators: true });
 
       return res.status(200).json(updatedHero);
     } catch (error) {
