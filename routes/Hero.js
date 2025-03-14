@@ -85,8 +85,8 @@ router.put(
       const { title_az, title_en, title_ru, description_az, description_en, description_ru } = req.body;
 
       // Güncellenecek veriyi getir
-      const existingData = await HeroModel.findById(id);
-      if (!existingData) {
+      const existingHero = await HeroModel.findById(id);
+      if (!existingHero) {
         return res.status(404).json({ error: "Güncellenecek veri bulunamadı!" });
       }
 
@@ -107,7 +107,7 @@ router.put(
         const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
         const imgOutputPath = `/public/${imgFileName}`;
         await uploadConfig.single("img")(req, res, async function (err) {
-          if (err) throw new Error("Resim yüklenirken hata oluştu.");
+          if (err) throw new Error("UP err.");
           await uploadConfig.fields([{ name: "img", maxCount: 1 }])(req, res, async function (err) {
             if (err) throw err;
           });
@@ -121,7 +121,7 @@ router.put(
         const miniImgFileName = `${uuidv4()}-${Date.now()}-mini.webp`;
         const miniImgOutputPath = `/public/${miniImgFileName}`;
         await uploadConfig.single("miniImg")(req, res, async function (err) {
-          if (err) throw new Error("Mini resim yüklenirken hata oluştu.");
+          if (err) throw new Error("Mini UP Err.");
         });
         updatedData.miniImage = miniImgOutputPath;
       } else {
