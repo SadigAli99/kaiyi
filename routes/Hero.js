@@ -72,6 +72,7 @@ router.post(
   }
 );
 
+
 router.put(
   "/hero/:id",
   uploadConfig.fields([
@@ -81,50 +82,59 @@ router.put(
   async (req, res) => {
     try {
       const { id } = req.params;
-
-      // Img
-      const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imgOutputPath = path.join(diskMountPath, imgFileName);
-      await useSharp(req.files.img[0].buffer, imgOutputPath);
-      const imageFile = `/public/${imgFileName}`;
-
-      // Mini img
-      const miniImgFileName = `${uuidv4()}-${Date.now()}-mini.webp`;
-      const miniImgOutputPath = path.join(diskMountPath, miniImgFileName);
-      await useSharp(req.files.miniImg[0].buffer, miniImgOutputPath);
-      const miniImgFile = `/public/${miniImgFileName}`;
-
       const { title_az, title_en, title_ru, description_az, description_en, description_ru } = req.body;
 
-      const updatedData = await HeroModel.findByIdAndUpdate(
-        id,
-        {
-          $set: {
-            title: {
-              az: title_az,
-              en: title_en,
-              ru: title_ru,
-            },
-            description: {
-              az: description_az,
-              en: description_en,
-              ru: description_ru,
-            },
-            miniImage: miniImgFile,
-            image: imageFile,
-            status: req.body.status,
-          },
-        },
-        { new: true }
-      )
-        .lean()
-        .exec();
-
-      if (!updatedData) {
-        return res.status(404).json({ error: "not found editid" });
+      // Güncellenecek veriyi getir
+      const existingData = await Hero.findById(id);
+      if (!existingData) {
+        return res.status(404).json({ error: "Güncellenecek veri bulunamadı!" });
       }
 
-      return res.status(200).json(updatedData);
+      // Yeni gelen verileri güncellenecek veri ile birleştir
+      const updatedData = {
+        title: {
+          az: title_az || existingHero.title.az,
+          en: title_en || existingHero.title.en,
+          ru: title_ru || existingHero.title.ru,
+        },
+        description: {
+          az: description_az || existingHero.description.az,
+          en: description_en || existingHero.description.en,
+          ru: description_ru || existingHero.description.ru,
+        },
+      };
+
+      // Yeni resim yüklendiyse güncelle, yoksa eskiyi koru
+      if (req.files["img"]) {
+        const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
+        const imgOutputPath = `/public/${imgFileName}`;
+        await uploadConfig.single("img")(req, res, async function (err) {
+          if (err) throw new Error("Resim yüklenirken hata oluştu.");
+          await uploadConfig.fields([{ name: "img", maxCount: 1 }])(req, res, async function (err) {
+            if (err) throw err;
+          });
+          updatedData.imageFile = imgOutputPath;
+        });
+      } else {
+        updatedData.imageFile = existingHero.image;
+      }
+
+      // miniImage kontrolü
+      if (req.files["miniImg"]) {
+        const miniImgFileName = `${uuidv4()}-${Date.now()}-mini.webp`;
+        const miniImgOutputPath = `/public/${miniImgFileName}`;
+        await uploadConfig.single("miniImg")(req, res, async function (err) {
+          if (err) throw new Error("Mini resim yüklenirken hata oluştu.");
+        });
+        updatedData.miniImage = miniImgOutputPath;
+      } else {
+        updatedData.miniImage = existingHero.miniImage;
+      }
+
+      // Güncellenmiş veriyi kaydet
+      const updatedHero = await Hero.findByIdAndUpdate(id, { $set: updatedData }, { new: true, runValidators: true });
+
+      return res.status(200).json(updatedHero);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: error.message });
