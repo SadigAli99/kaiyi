@@ -56,6 +56,7 @@ const AddCarsRoute = require('./routes/addcar/AddCarRoute');
 const SocialMediaRoute = require('./routes/SocialMediaRoute');
 const ContactManagerRoute = require('./routes/ContactManagerRoute');
 const UsersRoute = require('./routes/users/UsersRoute');
+const HomeRoute = require("./routes/seo/Homeroute");
 
 ConnectDB();
 
@@ -116,6 +117,7 @@ const apis = [
   SocialMediaRoute,
   ContactManagerRoute,
   UsersRoute,
+  HomeRoute
 ];
 
 apis.forEach((apis) => {
