@@ -41,8 +41,23 @@ router.post('/home-seo', async (req, res) => {
   }
 });
 
-
 router.get('/home-seo', async (req, res) => {
+    try {
+
+        const data = await HomeModel.find();
+
+        if (!data) {
+            return res.status(500).json({ error: "not found data" });
+        }
+
+        return res.status(200).json(data);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: error.message });
+    }
+})
+
+router.get('/home-seo-front', async (req, res) => {
   try {
     const acceptLanguage = req.headers['accept-language'];
     const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
