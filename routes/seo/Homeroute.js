@@ -41,4 +41,19 @@ router.post('/home-seo', async (req, res) => {
   }
 });
 
+router.get('/home-seo', async (req, res) => {
+  try {
+    const data = await HomeModel.find();
+
+    if (!data) {
+      return res.status(404).json({ error: 'data not found' });
+    }
+
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
