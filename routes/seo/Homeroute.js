@@ -41,15 +41,21 @@ router.post('/home-seo', async (req, res) => {
   }
 });
 
+
 router.get('/home-seo', async (req, res) => {
   try {
-    const data = await HomeModel.find();
+    const acceptLanguage = req.headers['accept-language'];
+    const preferredLanguage = acceptLanguage.split(',')[0].split(';')[0];
 
-    if (!data) {
-      return res.status(404).json({ error: 'data not found' });
-    }
+    const datas = await HomeModel.find({ status: 'active' });
 
-    return res.status(200).json(data);
+    const filteredData = datas?.map((data) => ({
+      _id: data._id,
+      meta_title: data.meta_title[preferredLanguage],
+      meta_description: data.meta_description[preferredLanguage],
+    }));
+
+    return res.status(200).json(filteredData);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
