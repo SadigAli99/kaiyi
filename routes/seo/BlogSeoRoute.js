@@ -5,7 +5,6 @@ const SeoBlogModel = require('../../models/seo/SeoBlogModel');
 router.post('/blog-seo', async (req, res) => {
   try {
     const existingData = await SeoBlogModel.findOne();
-
     if (!existingData) {
       const createData = new SeoBlogModel({
         meta_title: {
