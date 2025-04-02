@@ -63,8 +63,9 @@ const SeoTestDriveRoute = require('./routes/seo/TestDriveRoute');
 const SeoCorporateRoute = require('./routes/seo/CorporateSeoRoute');
 const KaiyiGarantSeoRoute = require('./routes/seo/KaiyiGarantRoute');
 const RoadRulesRoute = require('./routes/seo/RoadRulesRoute');
-const RepairSeoRoute = require("./routes/seo/RepairRoute");
-const KaiyiMarkaModel = require("./routes/seo/KaiyiMarkaRoute");
+const RepairSeoRoute = require('./routes/seo/RepairRoute');
+const KaiyiMarkaModel = require('./routes/seo/KaiyiMarkaRoute');
+const BlogSeoRoute = require('./routes/seo/BlogSeoRoute');
 
 ConnectDB();
 
@@ -134,7 +135,8 @@ const apis = [
   KaiyiGarantSeoRoute,
   RoadRulesRoute,
   RepairSeoRoute,
-  KaiyiMarkaModel
+  KaiyiMarkaModel,
+  BlogSeoRoute,
 ];
 
 apis.forEach((apis) => {
