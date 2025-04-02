@@ -60,6 +60,7 @@ const HomeRoute = require('./routes/seo/Homeroute');
 const CarsInStockSeoRoute = require('./routes/seo/CarsInStockRoute');
 const PointSaleRoute = require('./routes/seo/PointSaleRoute');
 const SeoTestDriveRoute = require('./routes/seo/TestDriveRoute');
+const SeoCorporateRoute = require('./routes/seo/CorporateSeoRoute');
 
 ConnectDB();
 
@@ -125,6 +126,7 @@ const apis = [
   CarsInStockSeoRoute,
   PointSaleRoute,
   SeoTestDriveRoute,
+  SeoCorporateRoute
 ];
 
 apis.forEach((apis) => {
