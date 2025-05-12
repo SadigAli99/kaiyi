@@ -5,6 +5,7 @@ const { uploadConfig, useSharp } = require('../config/MulterC');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const diskMountPath = require('../config/mountPath');
+
 router.post(
   '/hero',
   uploadConfig.fields([
@@ -208,6 +209,7 @@ router.post('/status-update-hero/:id', async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
+
 router.get('/status-hero/:id', async (req, res) => {
   try {
     const { id } = req.params;

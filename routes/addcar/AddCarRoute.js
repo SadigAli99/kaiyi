@@ -75,11 +75,18 @@ router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Img
-    const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-    const imgOutputPath = path.join(diskMountPath, imgFileName);
-    await useSharp(req.file.buffer, imgOutputPath);
-    const imageFile = `/public/${imgFileName}`;
+    const existingCar = await AddCarModel.findById(id).lean();
+    if (!existingCar) {
+      return res.status(404).json({ error: 'Not found car' });
+    }
+
+    let imageFile = existingCar.carImage;
+    if (req.file) {
+      const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
+      const imgOutputPath = path.join(diskMountPath, imgFileName);
+      await useSharp(req.file.buffer, imgOutputPath);
+      imageFile = `/public/${imgFileName}`;
+    }
 
     const {
       titleAz,
@@ -99,53 +106,44 @@ router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
       vin,
       color,
       selected_model,
+      status,
     } = req.body;
 
-    const updatedData = await AddCarModel.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          title: {
-            az: titleAz,
-            en: titleEn,
-            ru: titleRu,
-          },
-          inStock: {
-            az: inStockAz,
-            en: inStockEn,
-            ru: inStockRu,
-          },
-          companyTitle: {
-            az: companyTitleAz,
-            en: companyTitleEn,
-            ru: companyTitleRu,
-          },
-          miniDesc: {
-            az: miniDescAz,
-            en: miniDescEn,
-            ru: miniDescRu,
-          },
-          color: color,
-          year: year,
-          price: price,
-          vin: vin,
-          carImage: imageFile,
-          selected_model: selected_model,
-          status: req.body.status,
-        },
+    const updateData = {
+      title: {
+        az: titleAz ?? existingCar.title.az,
+        en: titleEn ?? existingCar.title.en,
+        ru: titleRu ?? existingCar.title.ru,
       },
-      { new: true },
-    )
-      .lean()
-      .exec();
+      inStock: {
+        az: inStockAz ?? existingCar.inStock.az,
+        en: inStockEn ?? existingCar.inStock.en,
+        ru: inStockRu ?? existingCar.inStock.ru,
+      },
+      companyTitle: {
+        az: companyTitleAz ?? existingCar.companyTitle.az,
+        en: companyTitleEn ?? existingCar.companyTitle.en,
+        ru: companyTitleRu ?? existingCar.companyTitle.ru,
+      },
+      miniDesc: {
+        az: miniDescAz ?? existingCar.miniDesc.az,
+        en: miniDescEn ?? existingCar.miniDesc.en,
+        ru: miniDescRu ?? existingCar.miniDesc.ru,
+      },
+      color: color ?? existingCar.color,
+      year: year ?? existingCar.year,
+      price: price ?? existingCar.price,
+      vin: vin ?? existingCar.vin,
+      selected_model: selected_model ?? existingCar.selected_model,
+      carImage: imageFile,
+      status: status ?? existingCar.status,
+    };
 
-    if (!updatedData) {
-      return res.status(404).json({ error: 'not found editid' });
-    }
+    const updatedCar = await AddCarModel.findByIdAndUpdate(id, { $set: updateData }, { new: true }).lean().exec();
 
-    return res.status(200).json(updatedData);
+    return res.status(200).json(updatedCar);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ error: error.message });
   }
 });
