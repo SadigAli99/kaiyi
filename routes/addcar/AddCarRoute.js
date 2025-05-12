@@ -118,7 +118,6 @@ router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
     };
 
     const updatedCar = await AddCarModel.findByIdAndUpdate(id, { $set: updatedFields }, { new: true }).lean().exec();
-
     return res.status(200).json(updatedCar);
   } catch (error) {
     console.error(error);
