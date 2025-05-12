@@ -77,12 +77,14 @@ router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
     const car = await AddCarModel.findById(id);
     if (!car) return res.status(404).json({ error: 'Car not found' });
 
-    let imageFile = car.carImage;
-    if (req.file) {
+    let imageFile;
+    if (req.file && req.file.buffer) {
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.file.buffer, imgOutputPath);
       imageFile = `/public/${imgFileName}`;
+    } else {
+      imageFile = car.carImage;
     }
 
     const updatedFields = {
