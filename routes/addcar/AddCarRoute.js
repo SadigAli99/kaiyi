@@ -82,10 +82,13 @@ router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
 
     let imageFile = existingCar.carImage;
     if (req.file) {
-      const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-      const imgOutputPath = path.join(diskMountPath, imgFileName);
-      await useSharp(req.file.buffer, imgOutputPath);
-      imageFile = `/public/${imgFileName}`;
+      const { buffer } = req.file;
+      if (buffer) {
+        const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
+        const imgOutputPath = path.join(diskMountPath, imgFileName);
+        await useSharp(buffer, imgOutputPath);
+        imageFile = `/public/${imgFileName}`;
+      }
     }
 
     const {
