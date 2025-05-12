@@ -74,75 +74,48 @@ router.post('/add-car', uploadConfig.single('img'), async (req, res) => {
 router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
   try {
     const { id } = req.params;
+    const car = await AddCarModel.findById(id);
+    if (!car) return res.status(404).json({ error: 'Car not found' });
 
-    const existingCar = await AddCarModel.findById(id).lean();
-    if (!existingCar) {
-      return res.status(404).json({ error: 'Not found car' });
-    }
-
-    let imageFile = existingCar.carImage;
+    let imageFile = car.carImage;
     if (req.file) {
-      const { buffer } = req.file;
-      if (buffer) {
-        const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-        const imgOutputPath = path.join(diskMountPath, imgFileName);
-        await useSharp(buffer, imgOutputPath);
-        imageFile = `/public/${imgFileName}`;
-      }
+      const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
+      const imgOutputPath = path.join(diskMountPath, imgFileName);
+      await useSharp(req.file.buffer, imgOutputPath);
+      imageFile = `/public/${imgFileName}`;
     }
 
-    const {
-      titleAz,
-      titleEn,
-      titleRu,
-      price,
-      inStockAz,
-      inStockEn,
-      inStockRu,
-      companyTitleAz,
-      companyTitleEn,
-      companyTitleRu,
-      miniDescAz,
-      miniDescEn,
-      miniDescRu,
-      year,
-      vin,
-      color,
-      selected_model,
-      status,
-    } = req.body;
-
-    const updateData = {
+    const updatedFields = {
       title: {
-        az: titleAz ?? existingCar.title.az,
-        en: titleEn ?? existingCar.title.en,
-        ru: titleRu ?? existingCar.title.ru,
+        az: req.body.titleAz ?? car.title.az,
+        en: req.body.titleEn ?? car.title.en,
+        ru: req.body.titleRu ?? car.title.ru,
       },
       inStock: {
-        az: inStockAz ?? existingCar.inStock.az,
-        en: inStockEn ?? existingCar.inStock.en,
-        ru: inStockRu ?? existingCar.inStock.ru,
+        az: req.body.inStockAz ?? car.inStock.az,
+        en: req.body.inStockEn ?? car.inStock.en,
+        ru: req.body.inStockRu ?? car.inStock.ru,
       },
       companyTitle: {
-        az: companyTitleAz ?? existingCar.companyTitle.az,
-        en: companyTitleEn ?? existingCar.companyTitle.en,
-        ru: companyTitleRu ?? existingCar.companyTitle.ru,
+        az: req.body.companyTitleAz ?? car.companyTitle.az,
+        en: req.body.companyTitleEn ?? car.companyTitle.en,
+        ru: req.body.companyTitleRu ?? car.companyTitle.ru,
       },
       miniDesc: {
-        az: miniDescAz ?? existingCar.miniDesc.az,
-        en: miniDescEn ?? existingCar.miniDesc.en,
-        ru: miniDescRu ?? existingCar.miniDesc.ru,
+        az: req.body.miniDescAz ?? car.miniDesc.az,
+        en: req.body.miniDescEn ?? car.miniDesc.en,
+        ru: req.body.miniDescRu ?? car.miniDesc.ru,
       },
-      color: color ?? existingCar.color,
-      year: year ?? existingCar.year,
-      price: price ?? existingCar.price,
-      vin: vin ?? existingCar.vin,
-      selected_model: selected_model ?? existingCar.selected_model,
+      color: req.body.color ?? car.color,
+      year: req.body.year ?? car.year,
+      price: req.body.price ?? car.price,
+      vin: req.body.vin ?? car.vin,
       carImage: imageFile,
-      status: status ?? existingCar.status,
+      selected_model: req.body.selected_model ?? car.selected_model,
+      status: req.body.status ?? car.status,
     };
 
-    const updatedCar = await AddCarModel.findByIdAndUpdate(id, { $set: updateData }, { new: true }).lean().exec();
+    const updatedCar = await AddCarModel.findByIdAndUpdate(id, { $set: updatedFields }, { new: true }).lean().exec();
 
     return res.status(200).json(updatedCar);
   } catch (error) {
