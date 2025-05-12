@@ -26,7 +26,7 @@ const AddCarSchema = mongoose.Schema({
   price: { type: String, required: true },
   carImage: { type: String, required: true },
   selected_model: { type: String, required: true },
-  color: { type: String, required: true },
+  color: { type: String, required: true, unique: false },
   status: { type: String, required: false, default: "active" },
 });
 
