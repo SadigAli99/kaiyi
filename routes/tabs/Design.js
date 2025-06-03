@@ -68,24 +68,26 @@ router.put(
 
       const updatedData = {
         title: {
-          az: title_az || existingData.title.az,
-          en: title_en || existingData.title.en,
-          ru: title_ru || existingData.title.ru,
+          az: title_az !== undefined ? title_az : existingData.title.az,
+          en: title_en !== undefined ? title_en : existingData.title.en,
+          ru: title_ru !== undefined ? title_ru : existingData.title.ru,
         },
         description: {
-          az: description_az || existingData.description.az,
-          en: description_en || existingData.description.en,
-          ru: description_ru || existingData.description.ru,
+          az: description_az !== undefined ? description_az : existingData.description.az,
+          en: description_en !== undefined ? description_en : existingData.description.en,
+          ru: description_ru !== undefined ? description_ru : existingData.description.ru,
         },
-        selectedOption: selected_option || existingData.selectedOption,
-        status: status || existingData.status,
-        image: req.files?.img ? `/public/${req.files.img[0].filename}` : existingData.image,
-        video: req.files?.video ? `/public/${req.files.video[0].filename}` : existingData.video,
+        selectedOption: selected_option !== undefined ? selected_option : existingData.selectedOption,
+        status: status !== undefined ? status : existingData.status,
+        image: req.files?.img?.length ? `/public/${req.files.img[0].filename}` : existingData.image,
+        video: req.files?.video?.length ? `/public/${req.files.video[0].filename}` : existingData.video,
       };
 
       const updated = await DesignTabModel.findByIdAndUpdate(id, updatedData, {
         new: true,
-      }).lean().exec();
+      })
+        .lean()
+        .exec();
 
       return res.status(200).json(updated);
     } catch (error) {
