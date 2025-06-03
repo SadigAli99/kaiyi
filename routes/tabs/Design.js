@@ -59,40 +59,35 @@ router.put(
     try {
       const { id } = req.params;
       const { title_az, title_en, title_ru, description_az, description_en, description_ru, selected_option, status } = req.body;
+
       const existingData = await DesignTabModel.findById(id);
 
       if (!existingData) {
         return res.status(404).json({ message: 'Data not found' });
       }
 
-      const updateFields = {
+      const updatedData = {
         title: {
-          az: title_az,
-          en: title_en,
-          ru: title_ru,
+          az: title_az || existingData.title.az,
+          en: title_en || existingData.title.en,
+          ru: title_ru || existingData.title.ru,
         },
         description: {
-          az: description_az,
-          en: description_en,
-          ru: description_ru,
+          az: description_az || existingData.description.az,
+          en: description_en || existingData.description.en,
+          ru: description_ru || existingData.description.ru,
         },
-        selectedOption: selected_option,
-        status: status,
-        image: existingData.image,
-        video: existingData.video,
+        selectedOption: selected_option || existingData.selectedOption,
+        status: status || existingData.status,
+        image: req.files?.img ? `/public/${req.files.img[0].filename}` : existingData.image,
+        video: req.files?.video ? `/public/${req.files.video[0].filename}` : existingData.video,
       };
 
-      if (req.files?.img) {
-        updateFields.image = `/public/${req.files.img[0].filename}`;
-      }
+      const updated = await DesignTabModel.findByIdAndUpdate(id, updatedData, {
+        new: true,
+      }).lean().exec();
 
-      if (req.files?.video) {
-        updateFields.video = `/public/${req.files.video[0].filename}`;
-      }
-
-      const updatedData = await DesignTabModel.findByIdAndUpdate(id, { $set: updateFields }, { new: true }).lean();
-
-      return res.status(200).json(updatedData);
+      return res.status(200).json(updated);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: error.message });
