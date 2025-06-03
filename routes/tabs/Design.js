@@ -59,6 +59,11 @@ router.put(
     try {
       const { id } = req.params;
       const { title_az, title_en, title_ru, description_az, description_en, description_ru, selected_option, status } = req.body;
+      const existingData = await DesignTabModel.findById(id);
+
+      if (!existingData) {
+        return res.status(404).json({ message: 'Data not found' });
+      }
 
       const updateFields = {
         title: {
@@ -72,22 +77,20 @@ router.put(
           ru: description_ru,
         },
         selectedOption: selected_option,
-        status,
+        status: status,
+        image: existingData.image,
+        video: existingData.video,
       };
-
-      if (req.files?.video) {
-        updateFields.video = `/public/${req.files.video[0].filename}`;
-      }
 
       if (req.files?.img) {
         updateFields.image = `/public/${req.files.img[0].filename}`;
       }
 
-      const updatedData = await DesignTabModel.findByIdAndUpdate(id, { $set: updateFields }, { new: true }).lean().exec();
-
-      if (!updatedData) {
-        return res.status(404).json({ error: 'not found editid' });
+      if (req.files?.video) {
+        updateFields.video = `/public/${req.files.video[0].filename}`;
       }
+
+      const updatedData = await DesignTabModel.findByIdAndUpdate(id, { $set: updateFields }, { new: true }).lean();
 
       return res.status(200).json(updatedData);
     } catch (error) {
