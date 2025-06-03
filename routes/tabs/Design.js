@@ -49,6 +49,8 @@ router.post(
   },
 );
 
+const isValidValue = (val) => val !== undefined && val !== null && val !== '';
+
 router.put(
   '/designtab/:id',
   upload.fields([
@@ -66,21 +68,32 @@ router.put(
         return res.status(404).json({ message: 'Data not found' });
       }
 
+      let imageFile = existingData.image;
+      let videoFile = existingData.video;
+
+      if (req.files?.img) {
+        imageFile = `/public/${req.files.img[0].filename}`;
+      }
+
+      if (req.files?.video) {
+        videoFile = `/public/${req.files.video[0].filename}`;
+      }
+
       const updatedData = {
         title: {
-          az: title_az !== undefined ? title_az : existingData.title.az,
-          en: title_en !== undefined ? title_en : existingData.title.en,
-          ru: title_ru !== undefined ? title_ru : existingData.title.ru,
+          az: isValidValue(title_az) ? title_az : existingData.title.az,
+          en: isValidValue(title_en) ? title_en : existingData.title.en,
+          ru: isValidValue(title_ru) ? title_ru : existingData.title.ru,
         },
         description: {
-          az: description_az !== undefined ? description_az : existingData.description.az,
-          en: description_en !== undefined ? description_en : existingData.description.en,
-          ru: description_ru !== undefined ? description_ru : existingData.description.ru,
+          az: isValidValue(description_az) ? description_az : existingData.description.az,
+          en: isValidValue(description_en) ? description_en : existingData.description.en,
+          ru: isValidValue(description_ru) ? description_ru : existingData.description.ru,
         },
-        selectedOption: selected_option !== undefined ? selected_option : existingData.selectedOption,
-        status: status !== undefined ? status : existingData.status,
-        image: req.files?.img?.length ? `/public/${req.files.img[0].filename}` : existingData.image,
-        video: req.files?.video?.length ? `/public/${req.files.video[0].filename}` : existingData.video,
+        selectedOption: isValidValue(selected_option) ? selected_option : existingData.selectedOption,
+        status: isValidValue(status) ? status : existingData.status,
+        image: imageFile,
+        video: videoFile,
       };
 
       const updated = await DesignTabModel.findByIdAndUpdate(id, updatedData, {
