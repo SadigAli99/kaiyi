@@ -8,11 +8,14 @@ const diskMountPath = require('../../config/mountPath');
 
 router.post('/add-car', uploadConfig.single('img'), async (req, res) => {
   try {
-    // Img
-    const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-    const imgOutputPath = path.join(diskMountPath, imgFileName);
-    await useSharp(req.file.buffer, imgOutputPath);
-    const imageFile = `/public/${imgFileName}`;
+    let imageFile = '';
+
+    if (req.file && req.file.buffer) {
+      const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
+      const imgOutputPath = path.join(diskMountPath, imgFileName);
+      await useSharp(req.file.buffer, imgOutputPath);
+      imageFile = `/public/${imgFileName}`;
+    }
 
     const requiredFields = ['titleAz', 'titleEn', 'titleRu', 'price', 'inStockAz', 'inStockEn', 'inStockRu', 'color'];
 
@@ -74,6 +77,7 @@ router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
     if (!car) return res.status(404).json({ error: 'Car not found' });
 
     let imageFile;
+
     if (req.file && req.file.buffer) {
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imgOutputPath = path.join(diskMountPath, imgFileName);
