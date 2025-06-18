@@ -11,8 +11,8 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      const videoFile = req.files.video ? `/public/${req.files.video[0].filename}` : '';
-      const imageFile = req.files.img ? `/public/${req.files.img[0].filename}` : '';
+      const videoFile = req.files?.video?.[0] ? `/public/${req.files.video[0].filename}` : '';
+      const imageFile = req.files?.img?.[0] ? `/public/${req.files.img[0].filename}` : '';
 
       const requiredFields = ['title_az', 'title_en', 'title_ru', 'description_az', 'description_en', 'description_ru', 'selected_option'];
 
@@ -40,7 +40,6 @@ router.post(
       });
 
       const savedData = await createData.save();
-
       return res.status(200).json(savedData);
     } catch (error) {
       console.log(error);
