@@ -8,10 +8,6 @@ const diskMountPath = require('../../config/mountPath');
 
 router.post('/add-car', uploadConfig.single('img'), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ msg: 'image fields are required!' });
-    }
-
     // Img
     const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
     const imgOutputPath = path.join(diskMountPath, imgFileName);
