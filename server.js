@@ -144,11 +144,11 @@ const apis = [
 ];
 
 apis.forEach((apis) => {
-  app.use('/api', apis);
+  app.use('/api/v2', apis);
 });
 
 //get endpoint lengths
-app.get('/api/get-all-endpoint-lengths', async (req, res) => {
+app.get('/api/v2/get-all-endpoint-lengths', async (req, res) => {
   try {
     const endpointLengths = apis ? apis?.length : 0;
     res.status(200).json(endpointLengths);
@@ -159,7 +159,7 @@ app.get('/api/get-all-endpoint-lengths', async (req, res) => {
 });
 
 //get db collection length
-app.get('/api/get-db-collection-lengths', async (req, res) => {
+app.get('/api/v2/get-db-collection-lengths', async (req, res) => {
   try {
     const dbcLengths = await mongoose.connection.db.listCollections().toArray();
     res.status(200).json(dbcLengths?.length);
