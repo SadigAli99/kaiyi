@@ -6,6 +6,7 @@ const app = express();
 dotenv.config(); //connect .env
 const PORT = 3000 || process.env.PORT; //connect port
 const mongoose = require('mongoose');
+const path = require('path');
 
 // imports
 const LogoRoute = require('./routes/LogoRoute');
@@ -75,9 +76,13 @@ app.use(express.json());
 
 app.use(cors({ origin: '*' }));
 
-app.use('/public', express.static('/var/data'));
+// app.use('/public', express.static('/var/data'));
 
 // app.use("/public", express.static(path.join(__dirname, "public")));
+// app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
+
+// contabo
+app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
 
 const apis = [
   Translates,
