@@ -11,7 +11,7 @@ router.post("/for-corporate-customers", uploadConfig.single("img"), async (req, 
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
     const outputPath = path.join(diskMountPath, fileName);
     await useSharp(req.file.buffer, outputPath);
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const requiredFields = ["title_az", "title_en", "title_ru", "description_az", "description_en", "description_ru"];
 
@@ -52,7 +52,7 @@ router.put("/for-corporate-customers/:id", uploadConfig.single("img"), async (re
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
     const outputPath = path.join(diskMountPath, fileName);
     await useSharp(req.file.buffer, outputPath);
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const { title_az, title_en, title_ru, description_az, description_en, description_ru } = req.body;
 

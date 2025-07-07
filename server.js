@@ -82,7 +82,7 @@ app.use(cors({ origin: '*' }));
 // app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
 
 // contabo
-app.use('/config/public2', express.static(path.join(__dirname, 'config', 'public2')));
+app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
 
 const apis = [
   Translates,

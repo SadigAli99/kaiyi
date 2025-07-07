@@ -14,7 +14,7 @@ router.post("/modelcomfortab", uploadConfig.single("img"), async (req, res) => {
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
     const outputPath = path.join(diskMountPath, fileName);
     await useSharp(req.file.buffer, outputPath);
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const requiredField = ["selected_model"];
 
@@ -52,7 +52,7 @@ router.put("/modelcomfortab/:id", uploadConfig.single("img"), async (req, res) =
 
     await useSharp(req.file.buffer, outputPath);
 
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const updatedData = await ComfortTabModel.findByIdAndUpdate(
       id,

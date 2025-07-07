@@ -11,8 +11,8 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      const videoFile = req.files?.video?.[0] ? `/public2/${req.files.video[0].filename}` : '';
-      const imageFile = req.files?.img?.[0] ? `/public2/${req.files.img[0].filename}` : '';
+      const videoFile = req.files?.video?.[0] ? `/public/${req.files.video[0].filename}` : '';
+      const imageFile = req.files?.img?.[0] ? `/public/${req.files.img[0].filename}` : '';
 
       const requiredFields = ['title_az', 'title_en', 'title_ru', 'description_az', 'description_en', 'description_ru', 'selected_option'];
 
@@ -71,11 +71,11 @@ router.put(
       let videoFile = existingData.video;
 
       if (req.files?.img) {
-        imageFile = `/public2/${req.files.img[0].filename}`;
+        imageFile = `/public/${req.files.img[0].filename}`;
       }
 
       if (req.files?.video) {
-        videoFile = `/public2/${req.files.video[0].filename}`;
+        videoFile = `/public/${req.files.video[0].filename}`;
       }
 
       const updatedData = {

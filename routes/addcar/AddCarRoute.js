@@ -14,7 +14,7 @@ router.post('/add-car', uploadConfig.single('img'), async (req, res) => {
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.file.buffer, imgOutputPath);
-      imageFile = `/public2/${imgFileName}`;
+      imageFile = `/public/${imgFileName}`;
     }
 
     const requiredFields = ['titleAz', 'titleEn', 'titleRu', 'price', 'inStockAz', 'inStockEn', 'inStockRu', 'color'];
@@ -82,7 +82,7 @@ router.put('/add-car/:id', uploadConfig.single('img'), async (req, res) => {
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.file.buffer, imgOutputPath);
-      imageFile = `/public2/${imgFileName}`;
+      imageFile = `/public/${imgFileName}`;
     } else {
       imageFile = car.carImage;
     }

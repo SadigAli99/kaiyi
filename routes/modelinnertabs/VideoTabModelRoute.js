@@ -5,7 +5,7 @@ const upload = require("../../config/MulterConfig");
 
 router.post("/modelvideotab", upload.single("video"), async (req, res) => {
   try {
-    const videoFile = req.file ? `/public2/${req.file.filename}` : "";
+    const videoFile = req.file ? `/public/${req.file.filename}` : "";
 
     const requiredFields = ["title_az", "title_en", "title_ru", "selected_model"];
 
@@ -38,7 +38,7 @@ router.post("/modelvideotab", upload.single("video"), async (req, res) => {
 router.put("/modelvideotab/:id", upload.single("video"), async (req, res) => {
   try {
     const { id } = req.params;
-    const videoFile = req.file ? `/public2/${req.file.filename}` : "";
+    const videoFile = req.file ? `/public/${req.file.filename}` : "";
 
     const { title_az, title_en, title_ru, selected_model } = req.body;
 

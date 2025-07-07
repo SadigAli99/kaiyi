@@ -16,7 +16,7 @@ router.post("/modelinteriertab", uploadConfig.single("img"), async (req, res) =>
 
     await useSharp(req.file.buffer, outputPath);
 
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const requiredFields = ["titleAz", "titleEn", "titleRu", "selected_model"];
 
@@ -62,7 +62,7 @@ router.put("/modelinteriertab/:id", uploadConfig.single("img"), async (req, res)
 
     await useSharp(req.file.buffer, outputPath);
 
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const { titleAz, titleEn, titleRu, selected_model } = req.body;
 

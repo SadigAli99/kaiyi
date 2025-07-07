@@ -11,7 +11,7 @@ router.post("/traffic-rules-helped", uploadConfig.single("img"), async (req, res
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
     const outputPath = path.join(diskMountPath, fileName);
     await useSharp(req.file.buffer, outputPath);
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const requiredFields = ["title_az", "title_en", "title_ru"];
 
@@ -47,7 +47,7 @@ router.put("/traffic-rules-helped/:id", uploadConfig.single("img"), async (req, 
     const fileName = `${uuidv4()}-${Date.now()}.webp`;
     const outputPath = path.join(diskMountPath, fileName);
     await useSharp(req.file.buffer, outputPath);
-    const imgFile = `/public2/${fileName}`;
+    const imgFile = `/public/${fileName}`;
 
     const { title_az, title_en, title_ru } = req.body;
 
