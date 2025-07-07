@@ -11,7 +11,7 @@ router.post("/modelpdf", upload.single("pdf"), async (req, res) => {
       return res.status(400).json({ msg: "image field is required!" });
     }
 
-    const pdfFile = req.file ? `/public/${req.file.filename}` : "";
+    const pdfFile = req.file ? `/public2/${req.file.filename}` : "";
 
     const requiredFields = ["selected_model"];
 
@@ -43,7 +43,7 @@ router.put("/modelpdf/:id", upload.single("pdf"), async (req, res) => {
       return res.status(400).json({ msg: "image field is required!" });
     }
 
-    const pdfFile = req.file ? `/public/${req.file.filename}` : "";
+    const pdfFile = req.file ? `/public2/${req.file.filename}` : "";
 
     const { selected_model } = req.body;
 

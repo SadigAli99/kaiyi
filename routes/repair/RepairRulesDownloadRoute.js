@@ -30,13 +30,13 @@ router.post(
 
         fs.writeFileSync(pdfOutputPath, req.files.pdf[0].buffer);
 
-        pdfFile = `/public/${pdfFileName}`;
+        pdfFile = `/public2/${pdfFileName}`;
       }
 
       const imgFileName = `${uuidv4()}${Date.now()}.webp`;
       const outputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.files["img"] ? req.files["img"][0].buffer : "", outputPath);
-      const imgFile = `/public/${imgFileName}`;
+      const imgFile = `/public2/${imgFileName}`;
 
       const save = new RepairRulesDownloadModel({
         title: {
@@ -71,7 +71,7 @@ router.put(
       const fileName = `${uuidv4()}-${Date.now()}.webp`;
       const outputPath = path.join(diskMountPath, fileName);
       await useSharp(req.files.img[0].buffer, outputPath);
-      const imgFile = `/public/${fileName}`;
+      const imgFile = `/public2/${fileName}`;
 
       let pdfFile = "";
       if (req.files.pdf) {
@@ -80,7 +80,7 @@ router.put(
 
         fs.writeFileSync(pdfOutputPath, req.files.pdf[0].buffer);
 
-        pdfFile = `/public/${pdfFileName}`;
+        pdfFile = `/public2/${pdfFileName}`;
       }
 
       const { title_az, title_en, title_ru } = req.body;

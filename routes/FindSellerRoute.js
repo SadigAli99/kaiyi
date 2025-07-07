@@ -11,7 +11,7 @@ router.post("/city", upload.single("img"), async (req, res) => {
         return res.status(400).json({ fieldError: `missing fields ${field}` });
       }
 
-      const serviceIcon = req.file ? `/public/${req.file.filename}` : "";
+      const serviceIcon = req.file ? `/public2/${req.file.filename}` : "";
 
       const savedData = new FindSellerModel({
         cityName: {
@@ -63,7 +63,7 @@ router.post("/city", upload.single("img"), async (req, res) => {
 router.put("/city/:id", upload.single("img"), async (req, res) => {
   try {
     const { id } = req.params;
-    const serviceIcon = req.file ? `/public/${req.file.filename}` : "";
+    const serviceIcon = req.file ? `/public2/${req.file.filename}` : "";
 
     const { cityNameAz, cityNameEn, cityNameRu, lat, lng } = req.body;
 

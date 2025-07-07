@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const ConnectDB = require('./config/connect');
 const app = express();
 dotenv.config(); //connect .env
-const PORT = 3000 || process.env.PORT; //connect port
+const PORT = 3031 || process.env.PORT; //connect port
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -82,7 +82,7 @@ app.use(cors({ origin: '*' }));
 // app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
 
 // contabo
-app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
+app.use('/config/public2', express.static(path.join(__dirname, 'config', 'public2')));
 
 const apis = [
   Translates,

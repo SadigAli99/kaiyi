@@ -16,7 +16,7 @@ router.post("/dealertab", uploadConfig.single("img"), async (req, res) => {
 
     await useSharp(req.file.buffer, outputPath);
 
-    const imgFile = `/public/${fileName}`;
+    const imgFile = `/public2/${fileName}`;
 
     const requiredFields = ["title_az", "title_en", "title_ru"];
 
@@ -57,7 +57,7 @@ router.put("/dealertab/:id", uploadConfig.single("img"), async (req, res) => {
 
     await useSharp(req.file.buffer, outputPath);
 
-    const imgFile = `/public/${fileName}`;
+    const imgFile = `/public2/${fileName}`;
 
     const { title_az, title_en, title_ru } = req.body;
 

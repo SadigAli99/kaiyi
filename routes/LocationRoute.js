@@ -7,7 +7,7 @@ const path = require("path");
 
 router.post("/location", upload.single("img"), async (req, res) => {
   try {
-    const imageFile = req.file ? `/public/${req.file.filename}` : "";
+    const imageFile = req.file ? `/public2/${req.file.filename}` : "";
 
     const requiredFields = ["title_az", "title_en", "title_ru"];
 
@@ -39,7 +39,7 @@ router.post("/location", upload.single("img"), async (req, res) => {
 router.put("/location/:id", upload.single("img"), async (req, res) => {
   try {
     const { id } = req.params;
-    const imageFile = req.file ? `/public/${req.file.filename}` : "";
+    const imageFile = req.file ? `/public2/${req.file.filename}` : "";
 
     const { title_az, title_en, title_ru } = req.body;
 

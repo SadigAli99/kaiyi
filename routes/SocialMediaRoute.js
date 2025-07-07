@@ -5,7 +5,7 @@ const upload = require("../config/MulterConfig");
 
 router.post("/add-socials", upload.single("img"), async (req, res) => {
   try {
-    const imageFile = req.file ? `/public/${req.file.filename}` : "";
+    const imageFile = req.file ? `/public2/${req.file.filename}` : "";
 
     const requiredFields = ["title_az", "title_en", "title_ru", "link"];
 
@@ -38,7 +38,7 @@ router.post("/add-socials", upload.single("img"), async (req, res) => {
 router.put("/add-socials/:id", upload.single("img"), async (req, res) => {
   try {
     const { id } = req.params;
-    const imageFile = req.file ? `/public/${req.file.filename}` : "";
+    const imageFile = req.file ? `/public2/${req.file.filename}` : "";
 
     const { title_az, title_en, title_ru, link } = req.body;
 

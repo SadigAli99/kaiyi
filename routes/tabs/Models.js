@@ -20,7 +20,7 @@ router.post(
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.files.img[0].buffer, imgOutputPath);
-      const imageFile = `/public/${imgFileName}`;
+      const imageFile = `/public2/${imgFileName}`;
 
       // Video handling
       let videoFile = "";
@@ -30,7 +30,7 @@ router.post(
 
         fs.writeFileSync(videoOutputPath, req.files.video[0].buffer);
 
-        videoFile = `/public/${videoFileName}`;
+        videoFile = `/public2/${videoFileName}`;
       }
       const requiredFields = [
         "title_az",
@@ -100,7 +100,7 @@ router.put(
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.files.img[0].buffer, imgOutputPath);
-      const imageFile = `/public/${imgFileName}`;
+      const imageFile = `/public2/${imgFileName}`;
 
       // Video handling
       let videoFile = "";
@@ -110,7 +110,7 @@ router.put(
 
         fs.writeFileSync(videoOutputPath, req.files.video[0].buffer);
 
-        videoFile = `/public/${videoFileName}`;
+        videoFile = `/public2/${videoFileName}`;
       }
       const {
         title_az,

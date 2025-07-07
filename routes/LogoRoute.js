@@ -5,7 +5,7 @@ const upload = require('../config/MulterConfig');
 
 router.post('/logo', upload.single('img'), async (req, res) => {
   try {
-    const imageFile = req.file ? `/public/${req.file.filename}` : '';
+    const imageFile = req.file ? `/public2/${req.file.filename}` : '';
 
     const createData = new LogoModel({
       logo: imageFile,
@@ -36,7 +36,7 @@ router.put('/logo/:id', upload.single('img'), async (req, res) => {
     };
 
     if (req.file) {
-      const imageFile = `/public/${req.file.filename}`;
+      const imageFile = `/public2/${req.file.filename}`;
       updatedData.logo = imageFile;
     } else {
       updatedData.logo = existingData.logo;

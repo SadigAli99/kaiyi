@@ -22,13 +22,13 @@ router.post(
       const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imgOutputPath = path.join(diskMountPath, imgFileName);
       await useSharp(req.files.img[0].buffer, imgOutputPath);
-      const imageFile = `/public/${imgFileName}`;
+      const imageFile = `/public2/${imgFileName}`;
 
       // Mini img
       const miniImgFileName = `${uuidv4()}-${Date.now()}.webp`;
       const miniImgOutputPath = path.join(diskMountPath, miniImgFileName);
       await useSharp(req.files.miniImg[0].buffer, miniImgOutputPath);
-      const miniImgFile = `/public/${miniImgFileName}`;
+      const miniImgFile = `/public2/${miniImgFileName}`;
 
       const requiredFields = ['title_az', 'title_en', 'title_ru', 'description_az', 'description_en', 'description_ru'];
 
@@ -104,7 +104,7 @@ router.put(
 
       if (req.files['img']) {
         const imgFileName = `${uuidv4()}-${Date.now()}.webp`;
-        const imgOutputPath = `/public/${imgFileName}`;
+        const imgOutputPath = `/public2/${imgFileName}`;
         await uploadConfig.single('img')(req, res, async function (err) {
           if (err) throw new Error('UP err.');
           await uploadConfig.fields([{ name: 'img', maxCount: 1 }])(req, res, async function (err) {
@@ -118,7 +118,7 @@ router.put(
 
       if (req.files['miniImg']) {
         const miniImgFileName = `${uuidv4()}-${Date.now()}-mini.webp`;
-        const miniImgOutputPath = `/public/${miniImgFileName}`;
+        const miniImgOutputPath = `/public2/${miniImgFileName}`;
         await uploadConfig.single('miniImg')(req, res, async function (err) {
           if (err) throw new Error('Mini UP Err.');
         });

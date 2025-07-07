@@ -18,7 +18,7 @@ router.post(
       const imageFileName = `${uuidv4()}-${Date.now()}.webp`;
       const imageOutputPath = path.join(diskMountPath, imageFileName);
       await useSharp(req.files.img[0].buffer, imageOutputPath);
-      const imgFile = `/public/${imageFileName}`;
+      const imgFile = `/public2/${imageFileName}`;
 
       if (!req.files.video) {
         return res.status(400).json({ message: "Video file is missing" });
@@ -30,7 +30,7 @@ router.post(
       const fs = require("fs");
       fs.writeFileSync(videoOutputPath, req.files.video[0].buffer);
 
-      const videoFile = `/public/${videoFileName}`;
+      const videoFile = `/public2/${videoFileName}`;
 
       const requiredFields = [
         "title_az",
@@ -108,10 +108,10 @@ router.put(
       const fileName = `${uuidv4()}-${Date.now()}.webp`;
       const outputPath = path.join(diskMountPath, fileName);
       await useSharp(req.files.img[0].buffer, outputPath);
-      const imgFile = `/public/${fileName}`;
+      const imgFile = `/public2/${fileName}`;
 
       //video
-      const videoFile = req.file ? `..//public/${req.files.video[0].filename}` : "";
+      const videoFile = req.file ? `..//public2/${req.files.video[0].filename}` : "";
 
       const {
         title_az,
