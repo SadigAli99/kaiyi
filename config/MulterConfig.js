@@ -17,14 +17,13 @@
 
 // module.exports = upload;
 
-
-const multer = require("multer");
-const path = require("path");
-const { v4: uuidv4 } = require("uuid");
+const multer = require('multer');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '..', 'public'));
+    cb(null, '/var/data');
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);

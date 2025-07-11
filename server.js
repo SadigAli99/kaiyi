@@ -76,13 +76,13 @@ app.use(express.json());
 
 app.use(cors({ origin: '*' }));
 
-// app.use('/public', express.static('/var/data'));
+app.use('/public', express.static('/var/data'));
 
 // app.use("/public", express.static(path.join(__dirname, "public")));
 // app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
 
 // contabo
-app.use('/public', express.static(path.join(__dirname, 'public')));
+// app.use('/public', express.static(path.join(__dirname, 'public')));
 
 const apis = [
   Translates,
@@ -149,11 +149,11 @@ const apis = [
 ];
 
 apis.forEach((apis) => {
-  app.use('/api/v2', apis);
+  app.use('/api', apis);
 });
 
 //get endpoint lengths
-app.get('/api/v2/get-all-endpoint-lengths', async (req, res) => {
+app.get('/api/get-all-endpoint-lengths', async (req, res) => {
   try {
     const endpointLengths = apis ? apis?.length : 0;
     res.status(200).json(endpointLengths);
@@ -164,7 +164,7 @@ app.get('/api/v2/get-all-endpoint-lengths', async (req, res) => {
 });
 
 //get db collection length
-app.get('/api/v2/get-db-collection-lengths', async (req, res) => {
+app.get('/api/get-db-collection-lengths', async (req, res) => {
   try {
     const dbcLengths = await mongoose.connection.db.listCollections().toArray();
     res.status(200).json(dbcLengths?.length);
