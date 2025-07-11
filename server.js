@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const ConnectDB = require('./config/connect');
 const app = express();
 dotenv.config(); //connect .env
-const PORT = 3031 || process.env.PORT; //connect port
+const PORT = process.env.PORT || 3000; //connect port
 const mongoose = require('mongoose');
 const path = require('path');
 
