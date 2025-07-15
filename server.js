@@ -76,9 +76,9 @@ app.use(express.json());
 
 app.use(cors({ origin: '*' }));
 
-app.use('/public', express.static('/var/data'));
+// app.use('/public', express.static('/var/data'));
 
-// app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("/public", express.static(path.join(__dirname, "public")));
 // app.use('/config/public', express.static(path.join(__dirname, 'config', 'public')));
 
 // contabo
